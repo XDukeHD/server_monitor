@@ -130,12 +130,22 @@ Com isso, ele roda sozinho e reinicia se cair.
 Além do monitor, criei uma página web simples para visualizar o status dos servidores.
 
 - **API**: Na pasta `web/api/`, tem um `index.php` que retorna dados em JSON sobre os servidores (status, carga, CPU, RAM, uptime).
-- **Página de Status**: Na pasta `web/status-page/`, um `index.html` bonito com fundo animado em grid, tema escuro/vermelho (com opção para claro), mostra o status em tempo real, com toggle para ver CPU/RAM.
+- **Página de Status**: Na pasta `web/status-page/`, um `index.html` para mostrar os dados de forma visual, com gráficos e tudo mais para facilitar a leitura.
+
+## Como usar a interface web
 
 Para usar:
 1. Instale um servidor web como Apache ou Nginx no Ubuntu: `sudo apt install apache2 php libapache2-mod-php`.
 2. Copie a pasta `web` para `/var/www/html/` ou configure o servidor para apontar para ela.
 3. Acesse `http://localhost/status-page/` para ver a página, e `http://localhost/api/` para a API JSON.
 4. Edite o `index.php` com suas credenciais do MySQL (mas mantenha seguro, não exponha!).
+5. Edite o `index.html` na linha 310 com o endereço correto da API (se não for localhost).
+6. Verifique se o servidor web está rodando e acesse a página de status.
 
 A página atualiza automaticamente a cada minuto.
+
+Se você quiser personalizar a página, sinta-se à vontade para editar o HTML, CSS e JavaScript conforme desejar.
+
+
+
+Se gostou do projeto, não esqueça de dar uma estrela no GitHub! ⭐
