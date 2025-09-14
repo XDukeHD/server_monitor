@@ -1,0 +1,27 @@
+package main
+
+type Config struct {
+	ServerID int
+	MySQL    MySQLConfig
+}
+
+type MySQLConfig struct {
+	Host     string
+	Port     string
+	DBName   string
+	Username string
+	Password string
+}
+
+func getConfig() Config {
+	return Config{
+		ServerID: 1, // Your Cluster ID
+		MySQL: MySQLConfig{
+			Host:     "Your MySQL Host",
+			Port:     "Your MySQL Port",
+			DBName:   "Your Database Name",
+			Username: "Your MySQL Username",
+			Password: "Your MySQL Password",
+		},
+	}
+}
