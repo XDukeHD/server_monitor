@@ -33,8 +33,8 @@ try {
         $lastStat = $stmt2->fetch(PDO::FETCH_ASSOC);
 
         if ($lastStat) {
-            $collectedAt = new DateTime($lastStat['collected_at'], new DateTimeZone('UTC'));
-            $now = new DateTime('now', new DateTimeZone('UTC'));
+            $collectedAt = new \DateTime($lastStat['collected_at'], new \DateTimeZone('UTC'));
+            $now = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
             $diff = $now->diff($collectedAt);
             $minutesAgo = ($diff->days * 1440) + ($diff->h * 60) + $diff->i;
 
@@ -48,7 +48,7 @@ try {
             $uptimeDays = 0;
             $uptimePercentage = 0;
             if ($uptimeData['first']) {
-                $first = new DateTime($uptimeData['first'], new DateTimeZone('UTC'));
+                $first = new \DateTime($uptimeData['first'], new \DateTimeZone('UTC'));
                 $uptimeDiff = $now->diff($first);
                 $uptimeDays = $uptimeDiff->days;
                 $expected = $uptimeDays * 480;

@@ -78,7 +78,7 @@ func collectAndInsert(db *sql.DB, serverID int, loc *time.Location, pendentes *[
 
 	load := estimateLoad(cpuUsage[0], ramUsage.UsedPercent, diskUsage.UsedPercent)
 
-	collectedAt := time.Now().UTC().Format("2006-01-02 15:04:05")
+	collectedAt := time.Now().In(loc).Format("2006-01-02 15:04:05")
 
 	_, err := db.Exec("INSERT INTO server_stats (server_id, server_running_state, cpu_usage, ram_usage, disk_usage, network_in, network_out, collected_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 		serverID, load, cpuUsage[0], ramUsage.UsedPercent, diskUsage.UsedPercent, networkIn, networkOut, collectedAt)
@@ -107,7 +107,7 @@ func saveCache(pendentes []PendingData) {
 }
 
 func estimateLoad(cpu, ram, disk float64) string {
-	if cpu > 80 || ram > 80 {
+	if cpu > 90 || ram > 90 {
 		return "critical"
 	}
 	if cpu > 60 || ram > 60 || disk > 80 {
