@@ -307,7 +307,7 @@
 
         async function loadServerStatus() {
             try {
-                const response = await fetch('http://localhost:3030/');
+                const response = await fetch('http://localhost:3030/v1/public/ServerStatus');
                 const data = await response.json();
                 
                 if (data.status === 'success') {

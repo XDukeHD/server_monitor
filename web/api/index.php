@@ -17,9 +17,16 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $pdo->prepare("SELECT id, name, status FROM dedicated_servers WHERE status = 'active'");
-    $stmt->execute();
-    $servers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmtStats = $pdo->prepare("SELECT server_id, cpu_usage, ram_usage, disk_usage, server_running_state, collected_at FROM server_stats ORDER BY id DESC");
+    $stmtStats->execute();
+    $allStats = $stmtStats->fetchAll(\PDO::FETCH_ASSOC);
+
+    $latestStats = [];
+    foreach ($allStats as $stat) {
+        if (!isset($latestStats[$stat['server_id']])) {
+            $latestStats[$stat['server_id']] = $stat;
+        }
+    }
 
     $totalServers = count($servers);
     $serverStatus = [];
@@ -33,7 +40,7 @@ try {
         $lastStat = $stmt2->fetch(PDO::FETCH_ASSOC);
 
         if ($lastStat) {
-            $collectedAt = new \DateTime($lastStat['collected_at'], new \DateTimeZone('UTC'));
+            $collectedAt = new \DateTime($lastStat['collected_at'], new \DateTimeZone('America/Sao_Paulo'));
             $now = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
             $diff = $now->diff($collectedAt);
             $minutesAgo = ($diff->days * 1440) + ($diff->h * 60) + $diff->i;
@@ -48,7 +55,7 @@ try {
             $uptimeDays = 0;
             $uptimePercentage = 0;
             if ($uptimeData['first']) {
-                $first = new \DateTime($uptimeData['first'], new \DateTimeZone('UTC'));
+                $first = new \DateTime($uptimeData['first'], new \DateTimeZone('America/Sao_Paulo'));
                 $uptimeDiff = $now->diff($first);
                 $uptimeDays = $uptimeDiff->days;
                 $expected = $uptimeDays * 480;
@@ -97,8 +104,6 @@ try {
         'totalServers' => $totalServers,
         'server_status' => $serverStatus
     ]);
-
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error']);
 }
-?>
