@@ -307,7 +307,7 @@
 
         async function loadServerStatus() {
             try {
-                const response = await fetch('http://localhost:3030/v1/public/ServerStatus');
+                const response = await fetch('https://system-api.firehosting.com.br/v1/public/ServerStatus');
                 const data = await response.json();
                 
                 if (data.status === 'success') {
